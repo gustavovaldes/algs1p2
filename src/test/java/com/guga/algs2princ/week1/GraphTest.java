@@ -8,17 +8,17 @@ import java.util.Collection;
 /**
  * Created by gvaldes
  */
-public class UndirectedGraphTest {
+public class GraphTest {
 
     @Test
     public void test() {
-        UndirectedGraph graph = new UndirectedGraph(10);
-        graph.addEdge(0,2);
-        graph.addEdge(1,3);
-        graph.addEdge(3,4);
-        graph.addEdge(4,5);
-        graph.addEdge(1,8);
-        graph.addEdge(2,4);
+        Graph graph = new Graph(10);
+        graph.addEdge(0, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(3, 4);
+        graph.addEdge(4, 5);
+        graph.addEdge(1, 8);
+        graph.addEdge(2, 4);
         graph.addEdge(3, 9);
         graph.addEdge(7, 2);
         graph.addEdge(3, 2);
@@ -37,5 +37,13 @@ public class UndirectedGraphTest {
         Assert.assertTrue(((Collection) iter).contains(9));
         Assert.assertTrue(((Collection) iter).contains(2));
         Assert.assertFalse(((Collection) iter).contains(7));
+
+        System.out.println(graph);
+
+        System.out.println(graph.degree(3));//4
+        System.out.println(graph.avgDegree());//1
+        System.out.println(graph.adj(4));// 3 5 2
+        System.out.println(graph.maxDegree());//4
+        System.out.println(graph.numberOfSelfLoops());//0
     }
 }
