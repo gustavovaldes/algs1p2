@@ -2,8 +2,6 @@ package com.guga.algs2princ.week1;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 
 /**
  * Created by guga
@@ -27,6 +25,10 @@ public class BreadthFirstSearch {
                 }
             }
         }
+
+    }
+
+    public static void main(String[] args) {
 
     }
 }
