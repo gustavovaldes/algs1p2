@@ -5,6 +5,10 @@ import edu.princeton.cs.algs4.Digraph;
 
 /**
  * Created by guga
+ * <p/>
+ * Shortest Ancestral Path. An ancestral path between two vertices v and w in a digraph is a directed path from v to
+ * a common ancestor x, together with a directed path from w to the same ancestor x. A shortest ancestral path is an
+ * ancestral path of minimum total length
  */
 public class SAP {
 
@@ -13,6 +17,11 @@ public class SAP {
     // constructor takes a digraph (not necessarily a DAG)
     public SAP(Digraph G) {
         this.G = new Digraph(G);
+    }
+
+    // do unit testing of this class
+    public static void main(String[] args) {
+
     }
 
     // length of shortest ancestral path between v and w; -1 if no such path
@@ -87,10 +96,5 @@ public class SAP {
             }
         }
         return commonAncestor;
-    }
-
-    // do unit testing of this class
-    public static void main(String[] args) {
-
     }
 }
