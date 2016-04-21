@@ -12,26 +12,30 @@ import java.util.Map;
 public class WordNet {
 
 
-    private Map<String, Integer> map = new HashMap<>();//private Map<Integer, Set<String>> mapIdToNoun = new HashMap<>();
+    private Map<String, Integer> map = new HashMap<>();
+    private Map<Integer, String> mapById = new HashMap<>();
     private Digraph G;
     private SAP sap;
 
     /*constructor takes the name of the two input files
      *linearithmic time (or better) in the input size.
+     *
+     *todo throw java.lang.IllegalArgumentException if not rooted DAG
      */
     public WordNet(String synsets, String hypernyms) {
+        if (synsets == null || hypernyms == null) throw new NullPointerException();
         In in = new In(synsets);
         int counter = 0;
         while (in.hasNextLine()) {
             String[] values = in.readLine().split("\\,");
             String[] nouns = values[1].split(" ");
             for (int i = 0; i < nouns.length; i++) {
-                if(!map.containsKey(nouns[i])){
-                    map.put(nouns[i],Integer.parseInt(values[0]));
+                if (!map.containsKey(nouns[i])) {
+                    map.put(nouns[i], Integer.parseInt(values[0]));
                     counter++;
                 }
             }
-            //map.put(values[1], Integer.parseInt(values[0]));
+            mapById.put(Integer.parseInt(values[0]), values[1]);
         }
         G = new Digraph(counter);
 
@@ -39,13 +43,11 @@ public class WordNet {
         while (in2.hasNextLine()) {
             String[] values = in2.readLine().split("\\,");
             for (int i = 1; i < values.length; i++) {
-                G.addEdge(Integer.parseInt(values[i - 1]), Integer.parseInt(values[i]));
-                //System.out.println("edge:"+ values[i-1]+ " ->" + values[i]);
+                G.addEdge(Integer.parseInt(values[0]), Integer.parseInt(values[i]));
             }
         }
 
         sap = new SAP(G);
-        //System.out.println(G);
     }
 
     // do unit testing of this class
@@ -69,6 +71,7 @@ public class WordNet {
      * linear time
      * */
     public int distance(String nounA, String nounB) {
+        if (!isNoun(nounA) || !isNoun(nounB)) throw new IllegalArgumentException();
         return sap.length(map.get(nounA), map.get(nounB));
     }
 
@@ -78,10 +81,8 @@ public class WordNet {
      * linear time
      */
     public String sap(String nounA, String nounB) {
+        if (!isNoun(nounA) || !isNoun(nounB)) throw new IllegalArgumentException();
         int ancestor = sap.ancestor(map.get(nounA), map.get(nounB));
-        for (Map.Entry<String, Integer> stringIntegerEntry : map.entrySet()) {
-            if (stringIntegerEntry.getValue() == ancestor) return stringIntegerEntry.getKey();
-        }
-        return "error";
+        return mapById.get(ancestor);
     }
 }
